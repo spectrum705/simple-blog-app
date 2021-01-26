@@ -54,10 +54,16 @@ class _CreateBlogState extends State<CreateBlog> {
           .child("blogImages")
           .child("${randomAlphaNumeric(9)}.jpg");
       final UploadTask task = firebaseStorageRef.putFile(selectedImage);
+      String downloadURL = await FirebaseStorage.instance
+          .ref()
+          .child("blogImages")
+          .child("${randomAlphaNumeric(9)}.jpg")
+          .getDownloadURL();
       Map<String, String> blogMap = {
         "title": title,
         "authorName": authorName,
         "desc": desc,
+        "download": downloadURL,
       };
       crudMethods.addData(blogMap).then((result) {
         Navigator.pop(context);
@@ -65,8 +71,10 @@ class _CreateBlogState extends State<CreateBlog> {
 
       //TODO fix this man >:(
 
+      // var downloadUrl;
+      // await task.whenComplete(await );
       // Uri downloadUrl = (await task.future).downloadUrl;
-      //var downloadURl = await (await task.whenComplete(then()));
+      //var downloadURl = await (await task.whenComplete(then((result{await taks.downloadUrl}))));
       // print("this is urlDownload: $downloadUrl");
     }
   }
